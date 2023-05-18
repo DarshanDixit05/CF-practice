@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    int n, m;
+    cin>>n>>m;
+    vector<vector<int>>edges(m+1, vector<int>(2,0));
+    for(int i=0; i<m; i++)
+    {
+        int u, v;
+        cin>>u>>v;
+        edges.push_back({u,v});
+    }
+    priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>>pq;
+    for(auto it : edges)
+    {
+        pq.push({it[0], it[1]});
+    }
+    vector<int>adj[n+1];
+    while(!pq.empty())
+    {
+        adj[pq.top().first].push_back(pq.top().second);
+        adj[pq.top().second].push_back(pq.top().first);
+        pq.pop();
+    }
+    vector<int>vis(n+1, 0);
+    vis[1]=1;
+    priority_queue<int, vector<int>, greater<int>>q;
+    q.push(1);
+    vector<int>path(n+1, 0);
+    // cout<<1<<" ";
+    while(!q.empty())
+    {
+        int node = q.top();
+        cout<<node<<" ";
+        q.pop();
+        
+        for(auto it : adj[node])
+        {
+            if(!vis[it])
+            {
+                // cout<<it<<" ";
+                q.push(it);
+                vis[it]=1;
+            }
+        }
+    }
+    return 0;
+}
