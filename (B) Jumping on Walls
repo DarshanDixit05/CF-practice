@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int n;
+int f(int i,int j,vector<string>&grid,int k,vector<vector<int>>&vis,int cnt)
+{
+    if(j>=n) return 1;
+    if(i<0 || j<0 || i>1 || grid[i][j]=='X' || vis[i][j]==1 || j<=cnt)
+    {
+        return 0;
+    }
+    vis[i][j]=1;
+    int o=f(i+1,j+k,grid,k,vis,cnt+1);
+    int s=f(i-1,j+k,grid,k,vis,cnt+1);
+    int t=f(i,j+1,grid,k,vis,cnt+1);
+    int fr=f(i,j-1,grid,k,vis,cnt+1);
+    return (o|s|t|fr);
+}
+ 
+int main() {
+    int k;
+    cin>>n>>k;
+    string s1,s2;
+    cin>>s1>>s2;
+    vector<string>grid;
+    grid.push_back(s1);
+    grid.push_back(s2);
+    vector<vector<int>>vis(2,vector<int>(n+4,0));
+    int i=0,j=0;
+    int cnt=-1;
+    if(f(i,j,grid,k,vis,cnt))
+    {
+       cout<<"YES"<<endl; 
+    }else cout<<"NO"<<endl;
+    return 0;
+}
