@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+vector<int>par, sz;
+ 
+int findpar(int u)
+{
+    if(u==par[u]) return u;
+    return par[u]=findpar(par[u]);
+}
+ 
+void merge(int u,int v)
+{
+    u=findpar(u);
+    v=findpar(v);
+    if(u==v) return;
+    if(sz[u]>=sz[v])
+    {
+        sz[u]+=sz[v];
+        par[v]=u;
+    }
+    else{
+        sz[v]+=sz[u];
+        par[u]=v;
+    }
+    return;
+}
+ 
+int main()
+{
+    int n, m;
+    cin>>n>>m;
+    par.resize(n);
+    sz.resize(n);
+    for(int i=0; i<n; i++)
+    {
+        sz[i]=1;
+        par[i]=i;
+    }
+    for(int i=0; i<m; i++)
+    {
+        int x;
+        cin>>x;
+        int p = -1;
+        for(int i=0; i<x; i++)
+        {
+            int y;
+            cin>>y;
+            if(p!=-1){
+                merge(y-1,p);
+            }
+            p=y-1;
+        }
+    }
+    
+    for(int i=0; i<n; i++){
+        int x = findpar(i);
+        // cout<<i<<" "<<x<<endl;
+        cout<<sz[x]<<" ";
+    }
+    
+    return 0;
+}
