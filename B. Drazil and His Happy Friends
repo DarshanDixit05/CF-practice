@@ -1,0 +1,46 @@
+void solve()
+{
+    int n, m;
+    cin>>n>>m;
+    
+    int happyBoys;
+    cin>>happyBoys;
+    unordered_set<int>hb;
+    for(int i=0; i<happyBoys; i++)
+    {
+        int x;
+        cin>>x;
+        hb.insert(x);
+    }
+    
+    int happyGirls;
+    cin>>happyGirls;
+    unordered_set<int>hg;
+    for(int i=0; i<happyGirls; i++)
+    {
+        int x;
+        cin>>x;
+        hg.insert(x);
+    }
+    
+    for(int i=0; i<=9999; i++)
+    {
+        int b = i%n;
+        int g = i%m;
+        
+        if(hb.find(b)!=hb.end())
+        {
+            hg.insert(g);
+        }
+        if(hg.find(g)!=hg.end())
+        {
+            hb.insert(b);
+        }
+    }
+    // cout<<hb.size()+hg.size()<<endl;
+    if(n+m==hb.size()+hg.size()){
+        cout<<"YES"<<endl;
+    }else{
+        cout<<"NO"<<endl;
+    }
+} 
