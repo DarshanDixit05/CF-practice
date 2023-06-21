@@ -1,0 +1,46 @@
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        int i=0, j=costs.size()-1;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+        vector<int>vis(costs.size(), 0);
+        while(i<candidates)
+        {
+            vis[i]=1;
+            pq.push({costs[i], i});
+            i++;
+        }
+        i--;
+        while( j>=costs.size()-candidates)
+        {
+            if(!vis[j])
+            {
+                vis[j]=1;
+                pq.push({costs[j], j});
+                j--;
+            }else break;
+        }
+        j++;
+        long long sum=0;
+        while(!pq.empty() and k--)
+        {
+            int val = pq.top().first;
+            int ind = pq.top().second;
+            pq.pop();
+            // cout<<val<<" "<<ind<<endl;
+            sum+=1LL*val;
+            if(ind>=j){
+                j--;
+                if(j>=0 and !vis[j]){
+                    vis[j]=1;
+                    pq.push({costs[j], j});
+                }
+            }else if(ind<=i){
+                i++;
+                if(i<costs.size() and !vis[i]){
+                    vis[i]=1;
+                    pq.push({costs[i], i});
+                }
+            }
+        }
+
+        return sum;
+    }
