@@ -1,0 +1,42 @@
+//2pointer, hashinh
+
+void solve()
+{
+    int n, k;
+    cin>>n>>k;
+    vector<int>a(n), b(n);
+    int sum=0;
+    for(int i=0; i<n; i++){
+        cin>>a[i];
+    }
+    for(int i=0; i<n; i++)cin>>b[i];
+    set<int>st;
+    for(int i=0; i<n; i++)
+    {
+        if(b[i]==1){
+            sum+=a[i];
+            st.insert(i);
+        }
+    }
+    int i=0, j=0;
+    int s = 0;
+    int maxi = -1e9;
+    int cnt=0;
+    while(j<n)
+    {
+        if(st.find(j)==st.end())
+        {
+            // cout<<a[j]<<" ";
+            s+=a[j];
+        }
+        
+        if(j-i+1==k)
+        {
+            maxi = max(maxi, s);
+            if(st.find(i)==st.end())s-=a[i];
+            i++;
+        }
+        j++;
+    }
+    cout<<maxi+sum<<endl;
+}   
