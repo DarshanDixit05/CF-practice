@@ -1,0 +1,23 @@
+// non recursive code (pending)
+class Solution {
+    map<pair<int,int>, int>dp;
+private:
+    int f(int i, int k, int prev, vector<vector<int>>& events)
+    {
+        if(i>=events.size())return 0;
+        if(k==0)return 0;
+        if(dp.find({k,prev})!=dp.end()) return dp[{k,prev}];
+        int t=0, nt=0;
+        if(events[i][0]>prev){
+            t = events[i][2] + f(i+1, k-1, events[i][1], events);
+        }
+        nt = f(i+1, k, prev, events);
+        return dp[{k,prev}] = max(t,nt);
+    }
+public:
+    int maxValue(vector<vector<int>>& events, int k) {
+        sort(events.begin(),events.end());
+        int n = events.size();
+        return f(0, k, -1, events);
+    }
+};
