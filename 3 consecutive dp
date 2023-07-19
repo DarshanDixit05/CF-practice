@@ -1,0 +1,24 @@
+    private:
+    int f(int indx, int pick, int arr[], int n, vector<vector<int>>&dp)
+    {
+        if(indx==0){
+            if(pick<2)return arr[indx];
+            else return 0;
+        }
+        
+        if(dp[indx][pick]!=-1)return dp[indx][pick];
+        int first = 0, second=0, third=0;
+        if(pick==2){
+            return dp[indx][pick] = f(indx-1, 0, arr, n, dp);
+        }
+        first = arr[indx] + f(indx-1, pick+1, arr, n, dp);
+        second = f(indx-1, pick, arr, n, dp);
+        third = f(indx-1, 0, arr, n, dp);
+        return dp[indx][pick] = max(first, max(second,third));
+    }
+	public:
+	int maxCalories(int arr[], int n)
+	{
+	    vector<vector<int>>dp(n, vector<int>(3, -1));
+	    return f(n-1, 0, arr, n, dp);
+	}
