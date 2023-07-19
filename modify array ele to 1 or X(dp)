@@ -1,0 +1,20 @@
+https://practice.geeksforgeeks.org/problems/modify-array-to-maximize-sum-of-adjacent-differences1729/
+
+private:
+    int f(int indx, int flag, int arr[], int N, vector<vector<int>>&dp)
+    {
+        if(indx<=0)return 0;
+        if(dp[indx][flag]!=-1)return dp[indx][flag];
+        
+        if(flag){
+            return dp[indx][flag] = max(abs(arr[indx]-arr[indx-1])+f(indx-1, 1, arr, N, dp), abs(arr[indx]-1)+f(indx-1, 0, arr, N, dp));
+        }else{
+            return dp[indx][flag] = max(abs(arr[indx-1]-1) + f(indx-1, 1, arr, N, dp), f(indx-1, 0, arr, N, dp));
+        }
+    }
+	public:
+	int maximumDifferenceSum(int arr[], int N) 
+	{ 
+	    vector<vector<int>>dp(N, vector<int>(2,-1));
+	    return max(f(N-1, 0, arr, N, dp), f(N-1, 1, arr, N, dp));
+	} 
